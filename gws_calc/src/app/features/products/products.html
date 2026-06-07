@@ -1,0 +1,15 @@
+<h2>Produkte</h2>
+
+@for (p of products; track p.id) {
+  <app-product-card
+    [product]="p"
+    (select)="addToCart($event)">
+  </app-product-card>
+}
+
+<app-cart
+  [items]="cartItems"
+  [total]="total"
+  (increase)="increase($event)"
+  (decrease)="decrease($event)">
+</app-cart>
