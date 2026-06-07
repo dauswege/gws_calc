@@ -20,7 +20,7 @@
           </div>
 
           <div class="cart-price">
-            {{ getItemPrice(item) | currency }}
+            {{ getItemPrice(item) | currency:'EUR'}}
           </div>
         </div>
       }
@@ -28,6 +28,6 @@
 
     <hr class="cart-divider" />
 
-    <div class="cart-total">Gesamt: {{ total() | currency }}</div>
+    <div class="cart-total">Gesamt: {{ total() | currency:'EUR' }}</div>
   </div>
 }

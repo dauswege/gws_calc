@@ -10,25 +10,16 @@
   (click)="onClick()"
   role="button"
   tabindex="0"
-  [attr.aria-label]="'Produkt ' + product().name + ' hinzufügen oder länger drücken zum Entfernen'">
+  [attr.aria-label]="'Produkt ' + product().name + ', Preis ' + (product().price | currency:'EUR') + (hasQuantity() ? ', bereits ' + quantity() + ' im Warenkorb' : '')">
 
-  <div class="card-header">
-    <div>
-      <h3 class="card-title">{{ product().name }} / {{getPrice(product()) | currency:'EUR' }}</h3>
-      @if (product().description) {
-        <p class="card-description">{{ product().description }}</p>
-      }
-    </div>
-    @if (getPrice(product())) {
-      <div class="card-price">{{ product().price | currency }}</div>
-    }
-  </div>
+  @if (hasQuantity()) {
+    <div class="quantity-badge">{{ quantity() }}</div>
+  }
 
-  <div class="card-interaction-hint">
-    @if (isPressed()) {
-      <span class="hint-long-press">Halten um zu entfernen...</span>
-    } @else {
-      <span class="hint-tap">Tippen zum Hinzufügen</span>
+  <div class="card-content">
+    <h3 class="card-title">{{ product().name }}</h3>
+    @if (product().price) {
+      <div class="card-price">{{ product().price | currency:'EUR' }}</div>
     }
   </div>
 </div>

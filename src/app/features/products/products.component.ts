@@ -11,11 +11,10 @@ import {CurrencyPipe} from '@angular/common';
   selector: 'app-products',
   standalone: true,
   imports: [ProductCardComponent, CartComponent, CurrencyPipe],
-  templateUrl: './products.html'
+  templateUrl: './products.html',
+  styleUrl: './products.scss'
 })
 export class ProductsComponent {
-
-
 
   cartItems: any[] = [];
   products: Product[];
@@ -46,6 +45,11 @@ export class ProductsComponent {
   decrease(id: string) {
     this.cart.decrease(id);
     this.cartItems = this.cart.getItems();
+  }
+
+  getCartQuantity(productId: string): number {
+    const item = this.cartItems.find(i => i.product.id === productId);
+    return item ? item.qty : 0;
   }
 
   getPrice(id: string) {

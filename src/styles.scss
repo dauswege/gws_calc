@@ -91,7 +91,8 @@ app-root {
   display: grid;
   gap: $spacing-md;
   padding: $spacing-md;
-  grid-template-columns: 1fr;
+  // 2 columns on mobile (portrait)
+  grid-template-columns: repeat(2, 1fr);
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
@@ -113,6 +114,9 @@ app-root {
 .product-card {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   background: $color-background;
   border-radius: 12px;
   box-shadow: 0 2px 8px $color-shadow;
@@ -123,6 +127,13 @@ app-root {
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+  padding: $spacing-md;
+  min-height: 140px;
+
+  @media (min-width: 640px) {
+    min-height: 160px;
+    padding: $spacing-lg;
+  }
 
   @media (hover: hover) {
     &:hover {
@@ -150,69 +161,42 @@ app-root {
   }
 }
 
-.card-header {
-  padding: $spacing-md;
-  flex-grow: 1;
+.card-content {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: $spacing-sm;
+  width: 100%;
 }
 
 .card-title {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: $color-text-primary;
-  margin: 0 0 $spacing-sm 0;
-  line-height: 1.4;
-  word-break: break-word;
-}
-
-.card-description {
-  font-size: 0.9rem;
-  color: $color-text-secondary;
-  margin: 0 0 $spacing-md 0;
-  line-height: 1.5;
-}
-
-.card-price {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: $color-primary;
   margin: 0;
-}
-
-.card-interaction-hint {
-  padding: $spacing-md $spacing-md 0 $spacing-md;
-  text-align: center;
-  font-size: 0.8rem;
-  color: $color-text-secondary;
-  min-height: 24px;
+  line-height: 1.3;
+  word-break: break-word;
+  flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: 640px) {
+    font-size: 1rem;
+  }
 }
 
-.hint-tap,
-.hint-long-press {
-  transition: all $transition-fast;
-}
-
-.hint-long-press {
+.card-price {
+  font-size: 1.25rem;
+  font-weight: 700;
   color: $color-primary;
-  font-weight: 600;
-  animation: pulse-text 0.6s ease-in-out;
-}
+  margin: 0;
 
-@keyframes pulse-text {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
+  @media (min-width: 640px) {
+    font-size: 1.4rem;
   }
 }
 
-.product-badge {
+.quantity-badge {
   position: absolute;
   top: -0.5rem;
   right: -0.5rem;
@@ -228,6 +212,12 @@ app-root {
   font-weight: 700;
   animation: pulse 0.3s ease-out;
   box-shadow: 0 2px 8px $color-shadow-hover;
+
+  @media (min-width: 640px) {
+    width: 32px;
+    height: 32px;
+    font-size: 0.95rem;
+  }
 }
 
 @keyframes pulse {
