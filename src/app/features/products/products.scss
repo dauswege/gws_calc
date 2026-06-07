@@ -1,1 +1,116 @@
-// Product-specific styles handled in global styles.scss
+// ============================================================
+// Products Page Layout
+// ============================================================
+
+.products-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+// Scrollable products area
+.products-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
+  padding-bottom: 20px; // Extra space so last product isn't cut off
+}
+
+.products-grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+
+  @media (min-width: 640px) {
+    gap: 1.25rem;
+    padding: 1.25rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 2rem;
+  }
+}
+
+// Fixed Footer - Always at Bottom
+.footer-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-top: 1px solid #e0e0e0;
+  padding: 1rem;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  height: 70px;
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+
+  @media (min-width: 640px) {
+    padding: 1.25rem;
+    height: 80px;
+  }
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.footer-count {
+  font-size: 0.95rem;
+  color: #666666;
+  font-weight: 500;
+}
+
+.footer-separator {
+  color: #999999;
+}
+
+.footer-total {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0066cc;
+}
+
+.btn-checkout {
+  padding: 0.75rem 1.25rem;
+  background-color: #0066cc;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 44px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active:not(:disabled) {
+    background-color: #0052a3;
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @media (min-width: 640px) {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+}
