@@ -1,12 +1,14 @@
 import { Component, input, output } from '@angular/core';
 import { CartItem } from '../../../core/models/cart-item';
 import { PriceService } from '../../../core/services/price.service';
+import {CurrencyPipe} from '@angular/common';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.scss'
+  styleUrl: './cart.component.scss',
+  imports: [CurrencyPipe]
 })
 export class CartComponent {
   items = input<CartItem[]>([]);

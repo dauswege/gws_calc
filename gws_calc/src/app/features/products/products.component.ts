@@ -5,13 +5,13 @@ import { PriceService } from '../../core/services/price.service';
 import { ProductCardComponent } from './product-card/product-card.component';
 import {Product} from '../../core/models/product';
 import {CartComponent} from '../cart/cart.component/cart.component';
+import {CurrencyPipe} from '@angular/common';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [ProductCardComponent, CartComponent],
-  templateUrl: './products.html',
-  styleUrl: './products.scss'
+  imports: [ProductCardComponent, CartComponent, CurrencyPipe],
+  templateUrl: './products.html'
 })
 export class ProductsComponent {
 
