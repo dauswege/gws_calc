@@ -1,8 +1,10 @@
 @if (items().length > 0) {
-  <div class="cart-container">
-    <h2>Warenkorb</h2>
+  <div class="cart-details-panel">
+    <div class="cart-header">
+      <h2>Warenkorb Details</h2>
+    </div>
 
-    <div>
+    <div class="cart-items-list">
       @for (item of items(); track item.product.id) {
         <div class="cart-item">
           <div class="cart-item-name">{{ item.product.name }}</div>
@@ -12,7 +14,7 @@
               −
             </button>
 
-            <span>{{ item.qty }}</span>
+            <span class="cart-qty">{{ item.qty }}</span>
 
             <button class="btn-add" (click)="increase.emit(item.product.id)" aria-label="Menge erhöhen">
               +
@@ -26,8 +28,4 @@
       }
     </div>
   </div>
-
-  <footer class="cart-footer">
-    <div class="cart-total">Gesamt: {{ total() | currency:'EUR' }}</div>
-  </footer>
 }
