@@ -1,10 +1,26 @@
-<h2>Produkte</h2>
+<div class="products-container">
+  <div class="search-bar">
+    <input type="text" placeholder="Produkte durchsuchen..." aria-label="Produkte durchsuchen" />
+  </div>
 
-@for (p of products; track p.id) {
-  <app-product-card
-    [product]="p"
-    (select)="addToCart($event)">
-  </app-product-card>
+  <div class="products-grid">
+    @for (p of products; track p.id) {
+      <app-product-card
+        [product]="p"
+        (select)="addToCart($event)">
+      </app-product-card>
+    }
+  </div>
+</div>
+
+@if (total > 0) {
+  <div class="summary-bar">
+    <div class="summary-info">
+      <span class="summary-label">Gesamtpreis</span>
+      <span class="summary-total">{{ total | currency }}</span>
+    </div>
+    <button class="btn-checkout" aria-label="Zur Kasse gehen">Checkout</button>
+  </div>
 }
 
 <app-cart

@@ -5,6 +5,34 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+// ============================================================
+// Design System: Colors, Spacing, Typography
+// ============================================================
+
+// Color Palette
+$color-primary: #0066cc;        // Primary accent
+$color-secondary: #ff6b35;      // Secondary accent (badges)
+$color-text-primary: #1a1a1a;   // Main text
+$color-text-secondary: #666666; // Subtexts
+$color-background: #ffffff;     // Card backgrounds
+$color-border: #f0f0f0;         // Borders
+$color-gray-light: #f5f5f5;     // Light backgrounds
+$color-shadow: rgba(0, 0, 0, 0.08);
+$color-shadow-hover: rgba(0, 0, 0, 0.12);
+
+// Spacing Scale
+$spacing-xs: 0.5rem;  // 8px
+$spacing-sm: 0.75rem; // 12px
+$spacing-md: 1rem;    // 16px
+$spacing-lg: 1.25rem; // 20px
+$spacing-xl: 1.5rem;  // 24px
+$spacing-2xl: 2rem;   // 32px
+
+// Transitions
+$transition-fast: 0.2s ease;
+$transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-slow: 0.4s ease-out;
+
 html {
   height: 100%;
   @include mat.theme(
@@ -20,20 +48,394 @@ html {
 }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
   color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
   margin: 0;
   height: 100%;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
-/* You can add global styles to this file, and also import other style files */
+
+// ============================================================
+// Global Styles
+// ============================================================
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+// ============================================================
+// Product Grid & Cards
+// ============================================================
+
+.products-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 100px;
+}
+
+.products-grid {
+  display: grid;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-lg;
+    padding: $spacing-lg;
+    padding-bottom: $spacing-xl;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-xl;
+    padding: $spacing-2xl;
+    padding-bottom: $spacing-2xl;
+  }
+
+  transition: grid-template-columns $transition-normal;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  background: $color-background;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px $color-shadow;
+  overflow: hidden;
+  transition: all $transition-normal;
+  position: relative;
+
+  @media (hover: hover) {
+    &:hover {
+      box-shadow: 0 8px 16px $color-shadow-hover;
+      transform: translateY(-4px);
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  animation: fadeInUp $transition-slow;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-header {
+  padding: $spacing-md;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: $color-text-primary;
+  margin: 0 0 $spacing-sm 0;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.card-description {
+  font-size: 0.9rem;
+  color: $color-text-secondary;
+  margin: 0 0 $spacing-md 0;
+  line-height: 1.5;
+}
+
+.card-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $color-primary;
+  margin: 0;
+}
+
+.card-actions {
+  padding: $spacing-md;
+  border-top: 1px solid $color-border;
+  display: flex;
+  gap: $spacing-sm;
+}
+
+.product-badge {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  background-color: $color-secondary;
+  color: $color-background;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  animation: pulse 0.3s ease-out;
+  box-shadow: 0 2px 8px $color-shadow-hover;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// ============================================================
+// Buttons
+// ============================================================
+
+.btn-base {
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-fast;
+  min-height: 44px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.btn-add {
+  @extend .btn-base;
+  flex: 1;
+  padding: $spacing-sm $spacing-md;
+  background-color: $color-primary;
+  color: $color-background;
+
+  &:active:not(:disabled) {
+    background-color: #0052a3;
+  }
+}
+
+.btn-remove {
+  @extend .btn-base;
+  flex: 1;
+  padding: $spacing-sm $spacing-md;
+  background-color: $color-gray-light;
+  color: $color-text-secondary;
+
+  &:active:not(:disabled) {
+    background-color: #e0e0e0;
+  }
+}
+
+.btn-checkout {
+  @extend .btn-base;
+  padding: $spacing-sm $spacing-lg;
+  background-color: $color-primary;
+  color: $color-background;
+  white-space: nowrap;
+  min-width: 120px;
+
+  &:active:not(:disabled) {
+    background-color: #0052a3;
+  }
+}
+
+// ============================================================
+// Summary Bar (Sticky)
+// ============================================================
+
+.summary-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: $color-background;
+  border-top: 1px solid $color-border;
+  padding: $spacing-md;
+  box-shadow: 0 -2px 8px $color-shadow;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  gap: $spacing-lg;
+  animation: slideUp $transition-normal;
+  padding-bottom: max($spacing-md, env(safe-area-inset-bottom));
+
+  @media (min-width: 640px) {
+    padding: $spacing-lg;
+    padding-bottom: max($spacing-lg, env(safe-area-inset-bottom));
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.summary-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.summary-label {
+  font-size: 0.85rem;
+  color: $color-text-secondary;
+  font-weight: 500;
+}
+
+.summary-total {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $color-text-primary;
+}
+
+// ============================================================
+// Search Bar
+// ============================================================
+
+.search-bar {
+  padding: $spacing-md;
+  background: $color-gray-light;
+  border-bottom: 1px solid $color-border;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
+  @media (min-width: 640px) {
+    padding: $spacing-lg;
+  }
+}
+
+.search-bar input {
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color $transition-fast;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: $color-primary;
+  box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+}
+
+// ============================================================
+// Cart Component Styles
+// ============================================================
+
+.cart-container {
+  padding: $spacing-md;
+
+  @media (min-width: 640px) {
+    padding: $spacing-lg;
+  }
+}
+
+.cart-item {
+  padding: $spacing-md;
+  margin-bottom: $spacing-md;
+  background: $color-background;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  transition: all $transition-fast;
+}
+
+.cart-item:active {
+  background-color: $color-gray-light;
+}
+
+.cart-item-name {
+  font-weight: 600;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+  font-size: 1rem;
+}
+
+.cart-controls {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+  margin-top: $spacing-sm;
+}
+
+.cart-controls button {
+  min-width: 44px;
+  padding: $spacing-sm;
+}
+
+.cart-controls span {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  color: $color-text-primary;
+}
+
+.cart-price {
+  margin-top: $spacing-sm;
+  font-weight: 600;
+  color: $color-primary;
+  font-size: 1.1rem;
+}
+
+.cart-divider {
+  border: none;
+  border-top: 2px solid $color-border;
+  margin: $spacing-lg 0;
+}
+
+.cart-total {
+  text-align: right;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: $color-text-primary;
+  padding: $spacing-md 0;
+}

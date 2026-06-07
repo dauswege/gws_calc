@@ -1,1 +1,22 @@
-<p>product-card works!</p>
+<div class="product-card">
+  <div class="card-header">
+    <div>
+      <h3 class="card-title">{{ product().name }}</h3>
+      @if (product().description) {
+        <p class="card-description">{{ product().description }}</p>
+      }
+    </div>
+    @if (product().price) {
+      <div class="card-price">{{ product().price | currency }}</div>
+    }
+  </div>
+
+  <div class="card-actions">
+    <button class="btn-remove" (click)="onSelect()" aria-label="Produkt entfernen">
+      −
+    </button>
+    <button class="btn-add" (click)="onSelect()" aria-label="Produkt hinzufügen">
+      +
+    </button>
+  </div>
+</div>

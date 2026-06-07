@@ -1,24 +1,33 @@
-<h3>Warenkorb</h3>
-
-@for (i of cartItems; track i.product.id) {
-  <div style="margin-bottom: 10px;">
-    <b>{{ i.product.name }}</b>
+@if (items().length > 0) {
+  <div class="cart-container">
+    <h2>Warenkorb</h2>
 
     <div>
-      <button (click)="decrease(i.product.id)">-</button>
+      @for (item of items(); track item.product.id) {
+        <div class="cart-item">
+          <div class="cart-item-name">{{ item.product.name }}</div>
 
-      <span style="margin: 0 10px;">
-        {{ i.qty }}
-      </span>
+          <div class="cart-controls">
+            <button class="btn-remove" (click)="decrease.emit(item.product.id)" aria-label="Menge verringern">
+              −
+            </button>
 
-      <button (click)="increase(i.product.id)">+</button>
+            <span>{{ item.qty }}</span>
+
+            <button class="btn-add" (click)="increase.emit(item.product.id)" aria-label="Menge erhöhen">
+              +
+            </button>
+          </div>
+
+          <div class="cart-price">
+            {{ getItemPrice(item) | currency }}
+          </div>
+        </div>
+      }
     </div>
 
-    <div>
-      Preis: {{ getPrice(i.product.id) * i.qty }} €
-    </div>
+    <hr class="cart-divider" />
+
+    <div class="cart-total">Gesamt: {{ total() | currency }}</div>
   </div>
-
-  <hr />
-
-  <h3>Gesamt: {{ total }} €</h3>
+}
