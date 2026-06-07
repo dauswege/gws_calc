@@ -119,6 +119,10 @@ app-root {
   overflow: hidden;
   transition: all $transition-normal;
   position: relative;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 
   @media (hover: hover) {
     &:hover {
@@ -127,10 +131,9 @@ app-root {
     }
   }
 
-  @media (hover: none) {
-    &:active {
-      transform: scale(0.98);
-    }
+  &.pressed {
+    transform: scale(0.96);
+    box-shadow: 0 4px 12px $color-shadow-hover;
   }
 
   animation: fadeInUp $transition-slow;
@@ -178,11 +181,35 @@ app-root {
   margin: 0;
 }
 
-.card-actions {
-  padding: $spacing-md;
-  border-top: 1px solid $color-border;
+.card-interaction-hint {
+  padding: $spacing-md $spacing-md 0 $spacing-md;
+  text-align: center;
+  font-size: 0.8rem;
+  color: $color-text-secondary;
+  min-height: 24px;
   display: flex;
-  gap: $spacing-sm;
+  align-items: center;
+  justify-content: center;
+}
+
+.hint-tap,
+.hint-long-press {
+  transition: all $transition-fast;
+}
+
+.hint-long-press {
+  color: $color-primary;
+  font-weight: 600;
+  animation: pulse-text 0.6s ease-in-out;
+}
+
+@keyframes pulse-text {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 .product-badge {

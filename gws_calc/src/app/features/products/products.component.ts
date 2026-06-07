@@ -33,6 +33,11 @@ export class ProductsComponent {
     this.cartItems = this.cart.getItems();
   }
 
+  removeFromCart(productId: string) {
+    this.cart.decrease(productId);
+    this.cartItems = this.cart.getItems();
+  }
+
   increase(id: string) {
     this.cart.increase(id);
     this.cartItems = this.cart.getItems();

@@ -1,4 +1,17 @@
-<div class="product-card">
+<div 
+  class="product-card"
+  [class.pressed]="isPressed()"
+  (mousedown)="onMouseDown()"
+  (mouseup)="onMouseUp()"
+  (mouseleave)="onMouseUp()"
+  (touchstart)="onTouchStart()"
+  (touchend)="onTouchEnd()"
+  (touchcancel)="onTouchCancel()"
+  (click)="onClick()"
+  role="button"
+  tabindex="0"
+  [attr.aria-label]="'Produkt ' + product().name + ' hinzufügen oder länger drücken zum Entfernen'">
+  
   <div class="card-header">
     <div>
       <h3 class="card-title">{{ product().name }}</h3>
@@ -11,12 +24,11 @@
     }
   </div>
 
-  <div class="card-actions">
-    <button class="btn-remove" (click)="onSelect()" aria-label="Produkt entfernen">
-      −
-    </button>
-    <button class="btn-add" (click)="onSelect()" aria-label="Produkt hinzufügen">
-      +
-    </button>
+  <div class="card-interaction-hint">
+    @if (isPressed()) {
+      <span class="hint-long-press">Halten um zu entfernen...</span>
+    } @else {
+      <span class="hint-tap">Tippen zum Hinzufügen</span>
+    }
   </div>
 </div>

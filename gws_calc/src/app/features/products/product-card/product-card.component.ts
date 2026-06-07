@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-product-card',
@@ -9,8 +9,62 @@ import { Component, input, output } from '@angular/core';
 export class ProductCardComponent {
   product = input<any>();
   select = output<any>();
+  remove = output<string>();
 
-  onSelect() {
-    this.select.emit(this.product());
+  isPressed = signal(false);
+  private pressTimer: any;
+  private readonly LONG_PRESS_DURATION = 1000; // 1 second
+
+  onMouseDown() {
+    this.isPressed.set(true);
+    this.pressTimer = setTimeout(() => {
+      this.handleLongPress();
+    }, this.LONG_PRESS_DURATION);
+  }
+
+  onMouseUp() {
+    this.isPressed.set(false);
+    if (this.pressTimer) {
+      clearTimeout(this.pressTimer);
+    }
+  }
+
+  onTouchStart() {
+    this.isPressed.set(true);
+    this.pressTimer = setTimeout(() => {
+      this.handleLongPress();
+    }, this.LONG_PRESS_DURATION);
+  }
+
+  onTouchEnd() {
+    this.isPressed.set(false);
+    if (this.pressTimer) {
+      clearTimeout(this.pressTimer);
+    }
+  }
+
+  onTouchCancel() {
+    this.isPressed.set(false);
+    if (this.pressTimer) {
+      clearTimeout(this.pressTimer);
+    }
+  }
+
+  onClick() {
+    // Only trigger click if not a long press
+    if (this.pressTimer) {
+      this.select.emit(this.product());
+    }
+  }
+
+  private handleLongPress() {
+    this.remove.emit(this.product().id);
+    this.isPressed.set(false);
+  }
+
+  ngOnDestroy() {
+    if (this.pressTimer) {
+      clearTimeout(this.pressTimer);
+    }
   }
 }
