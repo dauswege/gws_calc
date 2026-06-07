@@ -1,4 +1,4 @@
-<div 
+<div
   class="product-card"
   [class.pressed]="isPressed()"
   (mousedown)="onMouseDown()"
@@ -11,15 +11,15 @@
   role="button"
   tabindex="0"
   [attr.aria-label]="'Produkt ' + product().name + ' hinzufügen oder länger drücken zum Entfernen'">
-  
+
   <div class="card-header">
     <div>
-      <h3 class="card-title">{{ product().name }}</h3>
+      <h3 class="card-title">{{ product().name }} / {{getPrice(product()) | currency:'EUR' }}</h3>
       @if (product().description) {
         <p class="card-description">{{ product().description }}</p>
       }
     </div>
-    @if (product().price) {
+    @if (getPrice(product())) {
       <div class="card-price">{{ product().price | currency }}</div>
     }
   </div>
