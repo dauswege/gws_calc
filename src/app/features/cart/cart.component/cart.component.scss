@@ -1,1 +1,26 @@
-// Styles handled in global styles.scss
+// Footer with sticky positioning for cart total
+.cart-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-bg-secondary, #fff);
+  border-top: 1px solid var(--color-border, #e0e0e0);
+  padding: 1rem;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+
+  .cart-total {
+    text-align: right;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-primary, #333);
+    max-width: 100%;
+    word-wrap: break-word;
+  }
+}
+
+// Add padding to cart container to avoid overlap with fixed footer
+.cart-container {
+  padding-bottom: 80px;
+}
