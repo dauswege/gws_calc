@@ -1,21 +1,22 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {CartItem} from '../models/cart-item';
-import {PriceService} from './price.service';
+import {Product} from '../models/product';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class CartService {
 
   private cartItems: CartItem[] = [];
 
-  constructor(private priceService: PriceService) {}
+  constructor() {
+  }
 
-  add(product: any) {
+  add(product: Product) {
     const existing = this.cartItems.find(i => i.product.id === product.id);
 
     if (existing) {
       existing.qty++;
     } else {
-      this.cartItems.push({ product, qty: 1 });
+      this.cartItems.push({product, qty: 1});
     }
   }
 
@@ -36,8 +37,12 @@ export class CartService {
     }
   }
 
-  getItems() {
+  getItems(): CartItem[] {
     return this.cartItems;
+  }
+
+  getTotalQuantity(): number {
+    return this.cartItems.reduce((sum, item) => sum + item.qty, 0);
   }
 
   clear() {
@@ -46,7 +51,7 @@ export class CartService {
 
   getTotal(): number {
     return this.cartItems.reduce((sum, item) => {
-      return sum + (this.priceService.getPriceForProduct(item.product.id) ?? 0) * item.qty;
+      return sum + (item.product.price ?? 0) * item.qty;
     }, 0);
   }
 }

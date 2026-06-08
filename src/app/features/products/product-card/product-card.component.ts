@@ -1,4 +1,4 @@
-import { Component, input, output, signal, computed } from '@angular/core';
+import { Component, input, output, signal, computed, OnDestroy } from '@angular/core';
 import {CurrencyPipe} from '@angular/common';
 
 @Component({
@@ -8,7 +8,7 @@ import {CurrencyPipe} from '@angular/common';
   styleUrl: './product-card.component.scss',
   imports: [CurrencyPipe]
 })
-export class ProductCardComponent {
+export class ProductCardComponent implements OnDestroy {
   product = input<any>();
   quantity = input<number>(0); // Current quantity in cart
   select = output<any>();
@@ -16,7 +16,7 @@ export class ProductCardComponent {
 
   isPressed = signal(false);
   private pressTimer: any;
-  private readonly LONG_PRESS_DURATION = 1000; // 1 second
+  private readonly LONG_PRESS_DURATION = 600; // 1 second
 
   hasQuantity = computed(() => this.quantity() > 0);
 

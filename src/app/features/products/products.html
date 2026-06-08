@@ -14,20 +14,10 @@
   <!-- Fixed Footer - Always Visible -->
   <footer class="footer-bar">
     <div class="footer-content">
-      <span class="footer-count">{{ cartItems.length }} Artikel</span>
+      <span class="footer-count">{{ totalQuantity }} Artikel</span>
       <span class="footer-separator">•</span>
       <span class="footer-total">{{ total | currency:'EUR' }}</span>
     </div>
-    <button class="btn-checkout" aria-label="Zur Kasse gehen">Checkout</button>
+    <button class="btn-checkout" aria-label="Zur Kasse gehen" (click)="goToCart()">Checkout</button>
   </footer>
 </div>
-
-<!-- Side Panel / Modal for Cart Details (Optional) -->
-@if (cartItems.length > 0) {
-  <app-cart
-    [items]="cartItems"
-    [total]="total"
-    (increase)="increase($event)"
-    (decrease)="decrease($event)">
-  </app-cart>
-}

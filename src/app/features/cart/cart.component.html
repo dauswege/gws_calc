@@ -1,0 +1,51 @@
+<div class="cart-wrapper">
+  <div class="cart-container">
+    @if (items.length > 0) {
+      <div class="cart-details-panel">
+        <div class="cart-header">
+          <h2>Bestellung Details</h2>
+          <button class="btn-clear-cart" (click)="clearCart()" aria-label="Warenkorb leeren" title="Gesamten Warenkorb leeren">
+            🗑️ Leeren
+          </button>
+        </div>
+
+        <div class="cart-items-list">
+          @for (item of items; track item.product.id) {
+            <div class="cart-item">
+              <div class="cart-item-name">{{ item.product.name }}</div>
+
+              <div class="cart-controls">
+                <button class="btn-remove" (click)="decrease(item)" aria-label="Menge verringern">
+                  −
+                </button>
+
+                <span class="cart-qty">{{ item.qty }}</span>
+
+                <!--<button class="btn-add" (click)="increase.emit(item.product.id)" aria-label="Menge erhöhen">
+                  +
+                </button>-->
+                <button class="btn-add" (click)="increase(item)" aria-label="Menge erhöhen">
+                  +
+                </button>
+              </div>
+
+              <div class="cart-price">
+                {{ getItemPrice(item) | currency:'EUR' }}
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+
+  <footer class="footer-bar">
+    <div class="footer-content">
+      <span class="footer-count">{{ totalQuantity }} Artikel</span>
+      <span class="footer-separator">•</span>
+      <span class="footer-total">{{ total | currency:'EUR' }}</span>
+    </div>
+    <button class="btn-checkout" aria-label="Zur Kasse gehen" (click)="back()">Zurück</button>
+  </footer>
+</div>
