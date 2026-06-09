@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { DbService } from '../../core/services/db.service';
 import { CartService } from '../../core/services/cart.service';
 import { ProductCardComponent } from './product-card/product-card.component';
-import {Product} from '../../core/models/product';
-import {CurrencyPipe} from '@angular/common';
-import {Router} from '@angular/router';
+import { Product } from '../../core/models/product';
+import { CurrencyPipe } from '@angular/common';
+import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-products',
@@ -16,14 +17,21 @@ import {Router} from '@angular/router';
 export class ProductsComponent {
 
   cartItems: any[] = [];
-  products: Product[];
+  products: Product[] = [];
 
   constructor(
     private db: DbService,
     private cart: CartService,
-    private router: Router
+    private router: Router,
+    destroyRef: DestroyRef
   ) {
     this.products = this.db.getProducts();
+
+    this.db.productsChanges()
+      .pipe(takeUntilDestroyed(destroyRef))
+      .subscribe(products => {
+        this.products = products;
+      });
   }
 
   addToCart(product: any) {
