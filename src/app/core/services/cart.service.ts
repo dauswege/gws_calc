@@ -1,57 +1,73 @@
-import {Injectable} from '@angular/core';
-import {CartItem} from '../models/cart-item';
-import {Product} from '../models/product';
+import { Injectable } from '@angular/core';
+import { Observable, map } from 'rxjs';
+import { CartItem } from '../models/cart-item';
+import { Order } from '../models/order';
+import { Product } from '../models/product';
+import { OrderService } from './order.service';
 
 @Injectable({providedIn: 'root'})
 export class CartService {
+  constructor(private readonly orderService: OrderService) {}
 
-  private cartItems: CartItem[] = [];
+  activeOrderChanges(): Observable<Order | null> {
+    return this.orderService.activeOrderChanges();
+  }
 
-  constructor() {
+  getActiveOrder(): Order | null {
+    return this.orderService.getActiveOrder();
+  }
+
+  itemsChanges(): Observable<CartItem[]> {
+    return this.orderService.activeOrderChanges().pipe(
+      map(order => order?.items ?? []),
+    );
+  }
+
+  totalQuantityChanges(): Observable<number> {
+    return this.itemsChanges().pipe(
+      map(items => items.reduce((sum, item) => sum + item.qty, 0)),
+    );
+  }
+
+  totalChanges(): Observable<number> {
+    return this.itemsChanges().pipe(
+      map(items => items.reduce((sum, item) => sum + (item.product.price ?? 0) * item.qty, 0)),
+    );
   }
 
   add(product: Product) {
-    const existing = this.cartItems.find(i => i.product.id === product.id);
-
-    if (existing) {
-      existing.qty++;
-    } else {
-      this.cartItems.push({product, qty: 1});
-    }
+    this.orderService.addProduct(product);
   }
 
   increase(productId: string) {
-    const item = this.cartItems.find(i => i.product.id === productId);
-    if (item) item.qty++;
+    this.orderService.increase(productId);
   }
 
   decrease(productId: string) {
-    const item = this.cartItems.find(i => i.product.id === productId);
-
-    if (!item) return;
-
-    item.qty--;
-
-    if (item.qty <= 0) {
-      this.cartItems = this.cartItems.filter(i => i.product.id !== productId);
-    }
+    this.orderService.decrease(productId);
   }
 
   getItems(): CartItem[] {
-    return this.cartItems;
+    return this.orderService.getActiveItems();
   }
 
   getTotalQuantity(): number {
-    return this.cartItems.reduce((sum, item) => sum + item.qty, 0);
+    return this.orderService.getActiveTotalQuantity();
   }
 
   clear() {
-    this.cartItems = [];
+    this.orderService.clearActiveOrder();
   }
 
   getTotal(): number {
-    return this.cartItems.reduce((sum, item) => {
-      return sum + (item.product.price ?? 0) * item.qty;
-    }, 0);
+    return this.orderService.getActiveTotal();
+  }
+
+  setCheckoutTotalOverride(amount: number | null): boolean {
+    return this.orderService.setActiveCheckoutTotalOverride(amount);
+  }
+
+  setReceivedAmount(amount: number | null): boolean {
+    return this.orderService.setActiveReceivedAmount(amount);
   }
 }

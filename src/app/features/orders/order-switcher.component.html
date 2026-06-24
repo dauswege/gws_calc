@@ -1,0 +1,83 @@
+<section class="order-switcher">
+  <header class="order-switcher__header">
+    <button class="order-switcher__header-button" type="button" (click)="toggleOverview()">
+      <div class="order-switcher__header-text">
+        <div class="order-switcher__title-row">
+          <h2 class="order-switcher__title">{{ activeLabel() }}</h2>
+          <span class="order-switcher__chevron" [class.order-switcher__chevron--open]="overviewOpen()">⌄</span>
+        </div>
+      </div>
+    </button>
+  </header>
+
+  @if (overviewOpen()) {
+    <div class="order-switcher__panel">
+      <div class="order-switcher__create">
+        <label class="field">
+          <span>Neue Bestellung</span>
+          <input
+            type="text"
+            [ngModel]="newOrderLabel()"
+            (ngModelChange)="newOrderLabel.set($event)"
+            placeholder="z. B. Tisch 5, Superman, Hundling, etc."
+          />
+        </label>
+
+        <button class="btn btn-primary" type="button" (click)="createOrder()">
+          + Anlegen
+        </button>
+
+        <button class="btn btn-ghost" type="button" (click)="closeOverview()">
+          Schließen
+        </button>
+      </div>
+
+      <div class="order-switcher__list">
+        @if (orders().length === 0) {
+          <div class="empty-state">
+            Noch keine Bestellungen vorhanden. Lege die erste Bestellung an.
+          </div>
+        } @else {
+          @for (order of orders(); track trackByOrderId($index, order)) {
+            <article class="order-card" [class.order-card--active]="isActive(order.id)">
+              <button class="order-card__main" type="button" (click)="switchTo(order.id)">
+                <div class="order-card__label-row">
+                  <span class="order-card__label">{{ order.label }}</span>
+                  @if (isActive(order.id)) {
+                    <span class="order-card__badge">Aktiv</span>
+                  }
+                </div>
+
+                <div class="order-card__meta">
+                  <span>{{ quantityFor(order.id) }} Artikel</span>
+                  <span>•</span>
+                  <strong>{{ totalFor(order.id) | currency:'EUR' }}</strong>
+                </div>
+              </button>
+
+              <div class="order-card__edit">
+                <label class="field field--inline">
+                  <span>Name ändern</span>
+                  <input
+                    type="text"
+                    [ngModel]="renameDrafts[order.id] ?? order.label"
+                    (ngModelChange)="updateRenameDraft(order.id, $event)"
+
+                  />
+<!--                  (blur)="saveRename(order.id)"-->
+                </label>
+
+                <div class="order-card__actions">
+                  <button class="btn btn-secondary" type="button" (click)="saveRename(order.id)">Speichern</button>
+                  <button class="btn btn-danger" type="button" (click)="deleteOrder(order.id)">Löschen</button>
+                </div>
+              </div>
+            </article>
+          }
+        }
+      </div>
+    </div>
+  }
+</section>
+
+

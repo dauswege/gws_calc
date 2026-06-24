@@ -1,6 +1,3 @@
-import {Product} from './product';
+import { OrderItem } from './order-item';
 
-export interface CartItem {
-  product: Product;
-  qty: number;
-}
+export interface CartItem extends OrderItem {}

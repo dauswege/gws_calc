@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { OrderSwitcherComponent } from './features/orders/order-switcher.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [OrderSwitcherComponent, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

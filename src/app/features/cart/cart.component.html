@@ -1,16 +1,19 @@
 <div class="cart-wrapper">
   <div class="cart-container">
-    @if (items.length > 0) {
+    @if (items().length > 0) {
       <div class="cart-details-panel">
         <div class="cart-header">
-          <h2>Bestellung Details</h2>
-          <button class="btn-clear-cart" (click)="clearCart()" aria-label="Warenkorb leeren" title="Gesamten Warenkorb leeren">
+          <div>
+            <h2>Checkout</h2>
+            <p class="cart-subtitle">{{ activeOrder()?.label ?? 'Aktive Bestellung' }}</p>
+          </div>
+          <button class="btn-clear-cart" (click)="clearCart()" aria-label="🗑️ Leeren" title="Gesamte Bestellung leeren">
             🗑️ Leeren
           </button>
         </div>
 
         <div class="cart-items-list">
-          @for (item of items; track item.product.id) {
+          @for (item of items(); track item.product.id) {
             <div class="cart-item">
               <div class="cart-item-name">{{ item.product.name }}</div>
 
@@ -21,9 +24,6 @@
 
                 <span class="cart-qty">{{ item.qty }}</span>
 
-                <!--<button class="btn-add" (click)="increase.emit(item.product.id)" aria-label="Menge erhöhen">
-                  +
-                </button>-->
                 <button class="btn-add" (click)="increase(item)" aria-label="Menge erhöhen">
                   +
                 </button>
@@ -35,6 +35,111 @@
             </div>
           }
         </div>
+
+        <section class="payment-panel" aria-labelledby="payment-heading">
+          <div class="payment-panel__header">
+            <h3 id="payment-heading">Bezahlung</h3>
+            <span class="payment-panel__subtotal">Positionen: {{ subtotal() | currency:'EUR' }}</span>
+          </div>
+
+          <div class="payment-form">
+            <label class="payment-field">
+              <span class="payment-field__label">Endsumme</span>
+              <div class="payment-field__input-row">
+                <input
+                  class="payment-field__input"
+                  type="text"
+                  inputmode="decimal"
+                  [value]="adjustedTotalInput()"
+                  (focus)="onAdjustedTotalFocus()"
+                  (input)="onAdjustedTotalInputChange(readInputValue($event))"
+                  (blur)="onAdjustedTotalBlur()"
+                  placeholder="0,00"
+                  aria-label="Endsumme eingeben"
+                />
+                <button
+                  class="payment-field__action"
+                  type="button"
+                  (click)="resetAdjustedTotal()"
+                  [disabled]="!hasAdjustedTotal()"
+                >
+                  Original
+                </button>
+              </div>
+              <small class="payment-field__hint">
+                @if (hasAdjustedTotal()) {
+                  Anpassung: {{ adjustmentAmount() | currency:'EUR' }}
+                } @else {
+                  Entspricht aktuell der Summe aus den Positionen.
+                }
+              </small>
+            </label>
+
+            <label class="payment-field">
+              <span class="payment-field__label">Erhalten</span>
+              <input
+                class="payment-field__input"
+                type="text"
+                inputmode="decimal"
+                [value]="receivedAmountInput()"
+                (focus)="onReceivedAmountFocus()"
+                (input)="onReceivedAmountInputChange(readInputValue($event))"
+                (blur)="onReceivedAmountBlur()"
+                placeholder="0,00"
+                aria-label="Erhaltenen Betrag eingeben"
+              />
+
+              <div class="payment-quick-select" aria-label="Schnellwahl für erhaltenen Betrag">
+                @for (amount of quickReceivedAmounts(); track amount) {
+                  <button
+                    class="payment-quick-select__button"
+                    type="button"
+                    [class.payment-quick-select__button--active]="isQuickReceivedAmountSelected(amount)"
+                    (click)="setQuickReceivedAmount(amount)"
+                  >
+                    {{ amount | currency:'EUR' }}
+                  </button>
+                }
+              </div>
+            </label>
+          </div>
+
+          <div class="payment-summary">
+            <div class="payment-summary__row">
+              <span>Zu zahlen</span>
+              <strong>{{ finalTotal() | currency:'EUR' }}</strong>
+            </div>
+
+            @if (receivedAmount() !== null) {
+              <div class="payment-summary__row">
+                <span>Erhalten</span>
+                <strong>{{ receivedAmount()! | currency:'EUR' }}</strong>
+              </div>
+
+              @if (changeAmount() !== null) {
+                <div class="payment-summary__status payment-summary__status--positive">
+                  <span>Restgeld</span>
+                  <strong>{{ changeAmount()! | currency:'EUR' }}</strong>
+                </div>
+              } @else if (amountMissing() !== null) {
+                <div class="payment-summary__status payment-summary__status--warning">
+                  <span>Noch offen</span>
+                  <strong>{{ amountMissing()! | currency:'EUR' }}</strong>
+                </div>
+              }
+            } @else {
+              <div class="payment-summary__status payment-summary__status--neutral">
+                <span>Restgeld</span>
+                <strong>Erhaltenen Betrag eingeben</strong>
+              </div>
+            }
+          </div>
+        </section>
+      </div>
+    } @else {
+      <div class="cart-empty-state">
+        <h2>Checkout</h2>
+        <p>Für {{ activeOrder()?.label ?? 'die aktive Bestellung' }} wurden noch keine Artikel erfasst.</p>
       </div>
     }
   </div>
@@ -42,9 +147,9 @@
 
   <footer class="footer-bar">
     <div class="footer-content">
-      <span class="footer-count">{{ totalQuantity }} Artikel</span>
+      <span class="footer-count">{{ totalQuantity() }} Artikel</span>
       <span class="footer-separator">•</span>
-      <span class="footer-total">{{ total | currency:'EUR' }}</span>
+      <span class="footer-total">{{ finalTotal() | currency:'EUR' }}</span>
     </div>
     <button class="btn-checkout" aria-label="Zur Kasse gehen" (click)="back()">Zurück</button>
   </footer>
