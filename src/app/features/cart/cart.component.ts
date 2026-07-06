@@ -72,6 +72,18 @@ export class CartComponent {
   protected readonly hasAdjustedTotal = computed(() =>
     !this.areMoneyValuesEqual(this.finalTotal(), this.subtotal()),
   );
+  protected readonly quickAdjustedTotals = computed(() => {
+    const subtotal = this.roundMoney(this.subtotal());
+    const nextWholeEuro = Math.ceil(subtotal);
+    const nextFiveStep = this.ceilToStep(nextWholeEuro, 5);
+
+    return Array.from(new Set([
+      subtotal,
+      this.roundMoney(nextWholeEuro),
+      this.roundMoney(nextFiveStep),
+      this.roundMoney(nextFiveStep + 5),
+    ])).filter(amount => amount >= subtotal);
+  });
   protected readonly quickReceivedAmounts = computed(() => {
     const finalTotal = this.finalTotal();
     const nextWholeEuro = Math.ceil(finalTotal);
@@ -129,18 +141,22 @@ export class CartComponent {
     const subtotal = this.roundMoney(this.subtotal());
     const parsed = this.parseMoney(this.adjustedTotalInput());
     const normalized = parsed === null ? subtotal : this.roundMoney(parsed);
-    const override = this.areMoneyValuesEqual(normalized, subtotal) ? null : normalized;
 
-    this.cartService.setCheckoutTotalOverride(override);
-    this.adjustedTotalInput.set(this.formatMoneyForInput(override ?? subtotal));
+    this.applyAdjustedTotal(normalized);
   }
 
   resetAdjustedTotal(): void {
-    const subtotal = this.roundMoney(this.subtotal());
-
     this.editingAdjustedTotal.set(false);
-    this.cartService.setCheckoutTotalOverride(null);
-    this.adjustedTotalInput.set(this.formatMoneyForInput(subtotal));
+    this.applyAdjustedTotal(null);
+  }
+
+  setQuickAdjustedTotal(amount: number): void {
+    this.editingAdjustedTotal.set(false);
+    this.applyAdjustedTotal(amount);
+  }
+
+  isQuickAdjustedTotalSelected(amount: number): boolean {
+    return this.areMoneyValuesEqual(this.finalTotal(), amount);
   }
 
   onReceivedAmountFocus(): void {
@@ -183,6 +199,15 @@ export class CartComponent {
 
   protected back() {
     this.router.navigate(['/']);
+  }
+
+  private applyAdjustedTotal(amount: number | null): void {
+    const subtotal = this.roundMoney(this.subtotal());
+    const normalized = amount === null ? subtotal : this.roundMoney(amount);
+    const override = this.areMoneyValuesEqual(normalized, subtotal) ? null : normalized;
+
+    this.cartService.setCheckoutTotalOverride(override);
+    this.adjustedTotalInput.set(this.formatMoneyForInput(override ?? subtotal));
   }
 
   private parseMoney(value: string | null | undefined): number | null {
