@@ -43,69 +43,83 @@
   },
   {
     "id": "11",
+    "name": "Aperol Spritz",
+    "price": 5.00,
+    "category": "Getränke",
+    "active": true
+  },
+  {
+    "id": "12",
     "name": "Limo",
     "price": 3.00,
     "category": "Getränke",
     "active": true
   },
   {
-    "id": "12",
+    "id": "13",
     "name": "Mineral 0,33l",
     "price": 2.50,
     "category": "Getränke",
     "active": true
   },
   {
-    "id": "13",
+    "id": "14",
     "name": "Mineral 1l",
     "price": 4.00,
     "category": "Getränke",
     "active": true
   },
   {
-    "id": "14",
+    "id": "15",
     "name": "Apfelsaft / Johannisbeer / Holler gespritzt",
     "price": 4.00,
     "category": "Getränke",
     "active": true
   },
   {
-    "id": "17",
-    "name": "Gegrillter Schopf mit Salat und Gebäck",
-    "price": 10.00,
-    "category": "Speisen",
-    "active": true
-  },
-  {
     "id": "18",
-    "name": "Hendl mit Pommes",
-    "price": 12.00,
+    "name": "Gegrillter Schopf mit Salat und Gebäck",
+    "price": 11.00,
     "category": "Speisen",
     "active": true
   },
   {
     "id": "19",
-    "name": "Grillwürstel mit Pommes",
-    "price": 6.00,
+    "name": "Hendl mit Pommes",
+    "price": 13.00,
     "category": "Speisen",
     "active": true
   },
   {
     "id": "20",
-    "name": "Pommes Frites",
-    "price": 3.00,
+    "name": "Grillwürstel mit Pommes",
+    "price": 7.00,
     "category": "Speisen",
     "active": true
   },
   {
     "id": "21",
+    "name": "Kaspressknödel mit Kartoffelsalat",
+    "price": 8.00,
+    "category": "Speisen",
+    "active": true
+  },
+  {
+    "id": "22",
+    "name": "Pommes Frites",
+    "price": 4.00,
+    "category": "Speisen",
+    "active": true
+  },
+  {
+    "id": "23",
     "name": "Kaffee",
     "price": 2.50,
     "category": "Kaffee & Kuchen",
     "active": true
   },
   {
-    "id": "22",
+    "id": "24",
     "name": "Kuchen oder Torte",
     "price": 3.00,
     "category": "Kaffee & Kuchen",
