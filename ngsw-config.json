@@ -29,11 +29,11 @@
     {
       "name": "product-pricelist",
       "urls": [
-        "https://raw.githubusercontent.com/dauswege/gws_calc/refs/heads/main/data/pricelist_sommerfest26.json"
+        "https://raw.githubusercontent.com/dauswege/gws_calc/refs/heads/main/data/**"
       ],
       "cacheConfig": {
         "strategy": "freshness",
-        "maxSize": 1,
+        "maxSize": 10,
         "maxAge": "30d",
         "timeout": "10s"
       }
