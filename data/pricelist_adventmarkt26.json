@@ -1,0 +1,72 @@
+[
+  {
+    "id": "1",
+    "name": "Glühwein",
+    "price": 4.00,
+    "category": "Getränke",
+    "active": true
+  },
+  {
+    "id": "4",
+    "name": "Glühmost",
+    "price": 4.00,
+    "category": "Getränke",
+    "active": true
+  },
+  {
+    "id": "5",
+    "name": "Sporer Punsch",
+    "price": 4.00,
+    "category": "Getränke",
+    "active": true
+  },
+  {
+    "id": "7",
+    "name": "alkfr. Punsch",
+    "price": 3.00,
+    "category": "Getränke",
+    "active": true
+  },
+  {
+    "id": "8",
+    "name": "Bier / Bockbier",
+    "price": 4.00,
+    "category": "Getränke",
+    "active": true
+  },
+  {
+    "id": "9",
+    "name": "Limo/Mineral",
+    "price": 3.00,
+    "category": "Getränke",
+    "active": true
+  },
+  {
+    "id": "10",
+    "name": "Kaffee",
+    "price": 2.50,
+    "category": "Getränke",
+    "active": true
+  },
+  {
+    "id": "12",
+    "name": "Würstel",
+    "price": 4.50,
+    "category": "Speisen",
+    "active": true
+  },
+  {
+    "id": "13",
+    "name": "Bauernkrapfen",
+    "price": 2.50,
+    "category": "Speisen",
+    "active": true
+  },
+  {
+    "id": "14",
+    "name": "Schnaps",
+    "price": 1.00,
+    "category": "Getränke",
+    "active": true
+  }
+]
