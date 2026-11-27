@@ -41,6 +41,13 @@
     "category": "Getränke",
     "active": true
   },
+    {
+    "id": "15",
+    "name": "Apfelstrudellikör",
+    "price": 2.50,
+    "category": "Getränke",
+    "active": true
+  },
   {
     "id": "10",
     "name": "Kaffee",
