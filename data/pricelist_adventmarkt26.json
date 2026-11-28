@@ -75,5 +75,19 @@
     "price": 1.00,
     "category": "Getränke",
     "active": true
+  },
+  {
+    "id": "16",
+    "name": "kekse / Forelle",
+    "price": 8.00,
+    "category": "Speisen",
+    "active": true
+  },
+  {
+    "id": "17",
+    "name": "Raclettebrot",
+    "price": 4.00,
+    "category": "Getränke",
+    "active": true
   }
 ]
